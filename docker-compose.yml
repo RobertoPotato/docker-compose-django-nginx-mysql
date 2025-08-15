@@ -9,6 +9,9 @@ services:
       - 80:80
     depends_on:
       - django_app
+    volumes:
+      - static:/vol/static:ro
+      - media:/vol/media:ro
   django_app:
     image: django_app
     build:
@@ -21,6 +24,10 @@ services:
       - "./django/.env"
     depends_on:
       - db
+    volumes:
+      - static:/vol/static
+      - media:/vol/media
+
   db:
     image: mysql
     container_name: "db_cont"
@@ -29,3 +36,7 @@ services:
       - MYSQL_DATABASE=test_db
     volumes:
       - ./data/mysql/db:/var/lib/mysql
+
+volumes:
+  static:
+  media:
